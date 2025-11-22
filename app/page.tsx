@@ -187,7 +187,7 @@ const SKILLS = [
 
 // --- COMPONENTES ---
 
-const Navbar = ({ lang, setLang, t }) => {
+const Navbar = ({ lang, setLang, t }: any) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 
@@ -197,7 +197,8 @@ const Navbar = ({ lang, setLang, t }) => {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, []);
 
-	const toggleLang = () => setLang((prev) => (prev === "es" ? "en" : "es"));
+	const toggleLang = () =>
+		setLang((prev: string) => (prev === "es" ? "en" : "es"));
 
 	const links = [
 		{ name: t.nav.home, href: "#home" },
@@ -273,7 +274,7 @@ const Navbar = ({ lang, setLang, t }) => {
 	);
 };
 
-const Hero = ({ t }) => (
+const Hero = ({ t }: any) => (
 	<section
 		id="home"
 		className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
@@ -317,7 +318,7 @@ const Hero = ({ t }) => (
 	</section>
 );
 
-const BentoGrid = ({ t }) => (
+const BentoGrid = ({ t }: any) => (
 	<section id="about" className="py-20 bg-[#0a0a0a]">
 		<div className="max-w-6xl mx-auto px-6">
 			<div className="mb-12">
@@ -341,7 +342,7 @@ const BentoGrid = ({ t }) => (
 							</p>
 						</div>
 						<div className="mt-8 flex gap-4">
-							{t.about.tags.map((tag) => (
+							{t.about.tags.map((tag: any) => (
 								<div
 									key={tag}
 									className="px-3 py-1 bg-white/5 rounded-md text-xs text-gray-300 border border-white/10"
@@ -373,7 +374,7 @@ const BentoGrid = ({ t }) => (
 	</section>
 );
 
-const Projects = ({ lang, t }) => (
+const Projects = ({ lang, t }: any) => (
 	<section id="projects" className="py-20">
 		<div className="max-w-6xl mx-auto px-6">
 			<div className="flex items-center justify-between mb-12">
@@ -410,6 +411,7 @@ const Projects = ({ lang, t }) => (
 							</h3>
 
 							<p className="text-gray-400 text-sm mb-6 flex-1">
+								{/* @ts-ignore */}
 								{project.desc[lang]}
 							</p>
 
@@ -451,7 +453,7 @@ const Projects = ({ lang, t }) => (
 	</section>
 );
 
-const Contact = ({ t }) => (
+const Contact = ({ t }: any) => (
 	<section id="contact" className="py-20 bg-[#0a0a0a] relative">
 		<div className="max-w-4xl mx-auto px-6 text-center">
 			<h2 className="text-3xl font-bold text-white mb-6">{t.contact.title}</h2>
@@ -493,14 +495,16 @@ const Contact = ({ t }) => (
 	</section>
 );
 
-const Footer = ({ t }) => (
+const Footer = ({ t }: any) => (
 	<footer className="py-8 text-center text-gray-500 text-sm">
 		<p>{t.footer}</p>
 	</footer>
 );
 
 export default function App() {
+	// @ts-ignore
 	const [lang, setLang] = useState("es");
+	// @ts-ignore
 	const t = DATA[lang];
 
 	return (
