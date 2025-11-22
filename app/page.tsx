@@ -1,16 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
 	Github,
 	Linkedin,
 	Mail,
 	ExternalLink,
-	Code2,
 	Terminal,
-	Cpu,
-	Globe,
-	Palette,
 	Database,
 	Menu,
 	X,
