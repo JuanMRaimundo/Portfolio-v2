@@ -98,7 +98,6 @@ const DATA = {
 	},
 };
 
-// --- PROYECTOS (Enfocados en Backend y Logros Reales) ---
 const PROJECTS_DATA = [
 	{
 		title: "E-Commerce Backend Core",
@@ -153,7 +152,6 @@ const PROJECTS_DATA = [
 	},
 ];
 
-// Reordenado para priorizar Backend
 const SKILLS = [
 	{
 		name: "Backend",
@@ -224,7 +222,7 @@ const Navbar = ({ lang, setLang, t }: any) => {
 						<a
 							key={link.name}
 							href={link.href}
-							className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
+							className="text-sm font-medium text-gray-400 hover:text-white transition-colors scroll-smooth"
 						>
 							{link.name}
 						</a>
@@ -275,7 +273,6 @@ const Hero = ({ t }: any) => (
 		id="home"
 		className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
 	>
-		{/* Glows cambiados a verde/azul para dar feeling de Backend/Datos */}
 		<div className="absolute top-20 left-10 w-72 h-72 bg-green-600/10 rounded-full blur-[100px]" />
 		<div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px]" />
 
@@ -305,7 +302,7 @@ const Hero = ({ t }: any) => (
 				</a>
 				<a
 					href="#contact"
-					className="px-8 py-3 bg-white/5 text-white font-medium rounded-lg border border-white/10 hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+					className="px-8 py-3 bg-white/5 text-white font-medium rounded-lg border border-white/10 hover:bg-white/10 transition-colors flex items-center justify-center gap-2 "
 				>
 					{t.hero.btnContact} <Mail size={18} />
 				</a>
@@ -467,7 +464,7 @@ const Contact = ({ t }: any) => (
 				<a
 					href="https://github.com/JuanMRaimundo"
 					target="_blank"
-					className="p-3 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all border border-white/10"
+					className="p-3 rounded-full bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all border border-white/10 "
 				>
 					<Github size={24} />
 				</a>

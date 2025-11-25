@@ -4,7 +4,6 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// AQUÍ ES DONDE CAMBIAS EL TÍTULO DE LA PESTAÑA
 export const metadata: Metadata = {
 	title: "Juan M. Raimundo | Backend Developer",
 	description:
@@ -18,7 +17,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="es">
+		<html lang="es" className="scroll-smooth">
 			<body className={inter.className}>{children}</body>
 		</html>
 	);
