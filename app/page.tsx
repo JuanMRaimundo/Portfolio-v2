@@ -33,7 +33,7 @@ const DATA = {
 			description:
 				"Desarrollador enfocado en construir la lógica que impulsa aplicaciones robustas. Estudiante de la UTN con experiencia real transformando procesos manuales en soluciones digitales eficientes.",
 			btnProject: "Ver Proyectos",
-			btnContact: "Contáctame",
+			btnContact: "Contactame",
 		},
 		about: {
 			title: "Perfil Técnico",
@@ -68,7 +68,7 @@ const DATA = {
 		},
 		hero: {
 			title1: "Software Architecture",
-			title2: "Backend & Full Stack",
+			title2: "Full Stack",
 			description:
 				"Developer focused on building the logic that drives robust applications. UTN student with real-world experience transforming manual processes into efficient digital solutions.",
 			btnProject: "View Projects",
@@ -212,7 +212,7 @@ const Navbar = ({ lang, setLang, t }: any) => {
 			<div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 				<a
 					href="#"
-					className="text-xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent"
+					className="text-xl font-bold bg-blue-500 bg-clip-text text-transparent"
 				>
 					Juan Marco Raimundo
 				</a>
@@ -454,7 +454,7 @@ const Contact = ({ t }: any) => (
 
 			<a
 				href="mailto:juanmr.093@gmail.com"
-				className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-green-600 to-blue-600 text-white font-bold rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-green-500/25"
+				className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-green-500/25"
 			>
 				<Mail size={20} />
 				{t.contact.btn}
