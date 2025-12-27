@@ -20,71 +20,7 @@ import {
   Instagram,
 } from "lucide-react";
 
-// --- 1. COMPONENTE DECRYPTED TEXT (Integrado para que no falle el deploy) ---
-const CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;':,./<>?";
-
-interface DecryptedTextProps {
-  text: string;
-  speed?: number;
-  maxIterations?: number;
-  className?: string;
-  animateOnHover?: boolean;
-}
-
-const DecryptedText: React.FC<DecryptedTextProps> = ({
-  text,
-  speed = 50,
-  maxIterations = 10,
-  className = "",
-  animateOnHover = false,
-}) => {
-  const [displayText, setDisplayText] = useState(text);
-  const [isHovering, setIsHovering] = useState(false);
-
-  const runAnimation = () => {
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setDisplayText((prev) =>
-        prev
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return text[index];
-            }
-            return CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
-          })
-          .join("")
-      );
-      iteration += 1 / 3;
-      if (iteration >= text.length) {
-        clearInterval(interval);
-        setDisplayText(text);
-      }
-    }, speed);
-    return () => clearInterval(interval);
-  };
-
-  useEffect(() => {
-    const cleanup = runAnimation();
-    return cleanup;
-  }, [text, speed, maxIterations]);
-
-  const handleMouseEnter = () => {
-    if (animateOnHover && !isHovering) {
-      setIsHovering(true);
-      runAnimation();
-      setTimeout(() => setIsHovering(false), text.length * speed);
-    }
-  };
-
-  return (
-    <span className={className} onMouseEnter={handleMouseEnter}>
-      {displayText}
-    </span>
-  );
-};
-
-// --- 2. DATOS (Textos) ---
+// --- DATOS (Textos) ---
 const DATA = {
   es: {
     nav: {
@@ -96,7 +32,7 @@ const DATA = {
     },
     hero: {
       title1: "Arquitectura de Software",
-      title2: "Full Stack", // CAMBIO: Eliminado "Backend &"
+      title2: "Full Stack",
       description:
         "Desarrollador enfocado en construir la lógica que impulsa aplicaciones robustas. Estudiante de la UTN con experiencia real transformando procesos manuales en soluciones digitales eficientes.",
       btnProject: "Ver Proyectos",
@@ -135,7 +71,7 @@ const DATA = {
     },
     hero: {
       title1: "Software Architecture",
-      title2: "Full Stack", // CAMBIO: Eliminado "Backend &"
+      title2: "Full Stack",
       description:
         "Developer focused on building the logic that drives robust applications. UTN student with real-world experience transforming manual processes into efficient digital solutions.",
       btnProject: "View Projects",
@@ -179,7 +115,6 @@ const PROJECTS_DATA = [
     icon: (
       <Server
         size={48}
-        // Azul unificado
         className="text-gray-600 group-hover:text-blue-400 transition-colors transform group-hover:scale-110 duration-300"
       />
     ),
@@ -225,7 +160,6 @@ const SKILLS = [
     name: "Backend",
     icon: <Server size={20} />,
     description: "Node.js, Python, Express, API REST",
-    // Unificado a Azul
     color: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   },
   {
@@ -339,7 +273,6 @@ const Hero = ({ t }: any) => (
     id="home"
     className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
   >
-    {/* Unificado a Azul/Indigo */}
     <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-[100px]" />
     <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px]" />
 
@@ -350,14 +283,8 @@ const Hero = ({ t }: any) => (
       </div>
 
       <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
-        {/* Aquí está el efecto DecryptedText que pediste */}
-        <DecryptedText
-          text={t.hero.title1}
-          speed={50}
-          maxIterations={20}
-          animateOnHover={true}
-          className="block"
-        />
+        {/* ANIMACION REMOVIDA PARA TESTEO */}
+        <span className="block">{t.hero.title1}</span>
         <span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
           {t.hero.title2}
         </span>
@@ -374,7 +301,6 @@ const Hero = ({ t }: any) => (
         >
           {t.hero.btnProject} <Terminal size={18} />
         </a>
-        {/* BOTÓN UNIFICADO: Azul Sólido */}
         <a
           href="#contact"
           className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
@@ -395,11 +321,9 @@ const BentoGrid = ({ t }: any) => (
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Large Card */}
         <div className="md:col-span-2 bg-[#111] border border-white/10 rounded-2xl p-8 hover:border-white/20 transition-colors group">
           <div className="h-full flex flex-col justify-between">
             <div>
-              {/* Unificado a Azul */}
               <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6 text-blue-400 group-hover:scale-110 transition-transform duration-300">
                 <Server />
               </div>
@@ -423,7 +347,6 @@ const BentoGrid = ({ t }: any) => (
           </div>
         </div>
 
-        {/* Small Cards Grid */}
         <div className="grid grid-cols-1 gap-6">
           {SKILLS.map((skill, index) => (
             <div
@@ -528,7 +451,6 @@ const Contact = ({ t }: any) => (
       <h2 className="text-3xl font-bold text-white mb-6">{t.contact.title}</h2>
       <p className="text-gray-400 mb-10 max-w-xl mx-auto">{t.contact.desc}</p>
 
-      {/* BOTÓN UNIFICADO: Azul Sólido */}
       <a
         href="mailto:juanmr.093@gmail.com"
         className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/25"
@@ -578,7 +500,6 @@ export default function App() {
   const t = DATA[lang];
 
   return (
-    // Color de selección unificado a Azul
     <div className="bg-black min-h-screen text-gray-200 selection:bg-blue-500/30">
       <Navbar lang={lang} setLang={setLang} t={t} />
       <main>
