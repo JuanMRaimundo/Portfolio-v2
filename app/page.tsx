@@ -6,11 +6,7 @@ import {
 	Linkedin,
 	Mail,
 	ExternalLink,
-	Code2,
 	Terminal,
-	Cpu,
-	Globe,
-	Palette,
 	Database,
 	Menu,
 	X,
@@ -31,6 +27,52 @@ interface DecryptedTextProps {
 	className?: string;
 	animateOnHover?: boolean;
 }
+const Typewriter = ({
+	text,
+	className = "",
+}: {
+	text: string;
+	className?: string;
+}) => {
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	const words = text.split(" ");
+
+	return (
+		<span className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`}>
+			{words.map((word, wordIndex) => {
+				// Calculamos un delay base para que la animación fluya palabra por palabra
+				const previousCharsCount = words
+					.slice(0, wordIndex)
+					.reduce((acc, w) => acc + w.length, 0);
+
+				return (
+					<span key={wordIndex} className="inline-block whitespace-nowrap">
+						{word.split("").map((char, charIndex) => (
+							<span
+								key={charIndex}
+								style={{
+									transitionDelay: `${(previousCharsCount + charIndex) * 40}ms`,
+								}}
+								className={`inline-block transition-all duration-500 ease-out ${
+									mounted
+										? "opacity-100 translate-y-0 blur-0"
+										: "opacity-0 translate-y-2 blur-sm"
+								}`}
+							>
+								{char}
+							</span>
+						))}
+					</span>
+				);
+			})}
+		</span>
+	);
+};
 
 const DecryptedText: React.FC<DecryptedTextProps> = ({
 	text,
@@ -334,54 +376,69 @@ const Navbar = ({ lang, setLang, t }: any) => {
 	);
 };
 
-const Hero = ({ t }: any) => (
-	<section
-		id="home"
-		className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
-	>
-		<div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-[100px]" />
-		<div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px]" />
+const Hero = ({ t }: any) => {
+	const whatsappMessage =
+		"Hola! Estamos interesados en tu perfil profesional y nos gustaría conversar sobre una oportunidad laboral.";
+	const whatsappLink = `https://wa.me/5491163734198?text=${encodeURIComponent(
+		whatsappMessage
+	)}`;
+	return (
+		<section
+			id="home"
+			className="min-h-screen flex items-center justify-center pt-16 relative overflow-hidden"
+		>
+			<div className="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-[100px]" />
+			<div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px]" />
 
-		<div className="max-w-4xl mx-auto px-6 text-center z-10">
-			<div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
-				<span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-				<span className="text-xs text-gray-400 font-medium">{t.nav.cta}</span>
-			</div>
-
-			<h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
-				<DecryptedText
-					text={t.hero.title1}
-					speed={50}
-					maxIterations={20}
-					animateOnHover={true}
-					className="block"
-				/>
-				<span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
-					{t.hero.title2}
-				</span>
-			</h1>
-
-			<p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-				{t.hero.description}
-			</p>
-
-			<div className="flex flex-col sm:flex-row gap-4 justify-center">
+			<div className="max-w-4xl mx-auto px-6 text-center z-10">
 				<a
-					href="#projects"
-					className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 scroll-smooth"
+					href={whatsappLink}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6 hover:bg-white/10 transition-colors cursor-pointer group"
 				>
-					{t.hero.btnProject} <Terminal size={18} />
+					<span className="relative flex h-2 w-2">
+						<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+						<span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+					</span>
+					<span className="text-xs text-gray-400 font-medium group-hover:text-blue-300 transition-colors">
+						{t.nav.cta}
+					</span>
 				</a>
-				<a
-					href="#contact"
-					className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 scroll-smooth shadow-lg shadow-blue-500/25"
-				>
-					{t.hero.btnContact} <Mail size={18} />
-				</a>
+
+				<h1 className="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
+					<Typewriter
+						key={t.hero.title1} // Reinicia animación al cambiar idioma
+						text={t.hero.title1}
+						className="block font-mono tracking-tighter sm:tracking-normal justify-center"
+					/>
+					<span className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+						{t.hero.title2}
+					</span>
+				</h1>
+
+				<p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+					{t.hero.description}
+				</p>
+
+				<div className="flex flex-col sm:flex-row gap-4 justify-center">
+					<a
+						href="#projects"
+						className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 scroll-smooth"
+					>
+						{t.hero.btnProject} <Terminal size={18} />
+					</a>
+					<a
+						href="#contact"
+						className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 scroll-smooth shadow-lg shadow-blue-500/25"
+					>
+						{t.hero.btnContact} <Mail size={18} />
+					</a>
+				</div>
 			</div>
-		</div>
-	</section>
-);
+		</section>
+	);
+};
 
 const BentoGrid = ({ t }: any) => (
 	<section id="about" className="py-20 bg-[#0a0a0a]">
