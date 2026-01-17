@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	Github,
 	Linkedin,
 	Mail,
 	ExternalLink,
+	Code2,
 	Terminal,
+	Cpu,
+	Globe,
+	Palette,
 	Database,
 	Menu,
 	X,
@@ -16,17 +20,7 @@ import {
 	Instagram,
 } from "lucide-react";
 
-// --- 1. COMPONENTE DECRYPTED TEXT (Integrado) ---
-const CHARACTERS =
-	"abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;':,./<>?";
-
-interface DecryptedTextProps {
-	text: string;
-	speed?: number;
-	maxIterations?: number;
-	className?: string;
-	animateOnHover?: boolean;
-}
+// --- 1. COMPONENTE TYPEWRITER INTELIGENTE (Detecta Visibilidad) ---
 const Typewriter = ({
 	text,
 	className = "",
@@ -34,18 +28,42 @@ const Typewriter = ({
 	text: string;
 	className?: string;
 }) => {
-	const [mounted, setMounted] = useState(false);
+	// Usamos un estado para saber si el elemento es visible en pantalla
+	const [isVisible, setIsVisible] = useState(false);
+	const containerRef = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {
-		setMounted(true);
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					// Si entra en pantalla, activamos. Si sale, desactivamos (para que se repita al volver).
+					if (entry.isIntersecting) {
+						setIsVisible(true);
+					} else {
+						setIsVisible(false);
+					}
+				});
+			},
+			{ threshold: 0.1 }, // Se activa cuando se ve al menos el 10%
+		);
+
+		if (containerRef.current) {
+			observer.observe(containerRef.current);
+		}
+
+		return () => {
+			if (containerRef.current) observer.disconnect();
+		};
 	}, []);
 
 	const words = text.split(" ");
 
 	return (
-		<span className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`}>
+		<span
+			ref={containerRef}
+			className={`inline-flex flex-wrap gap-x-[0.25em] ${className}`}
+		>
 			{words.map((word, wordIndex) => {
-				// Calculamos un delay base para que la animación fluya palabra por palabra
 				const previousCharsCount = words
 					.slice(0, wordIndex)
 					.reduce((acc, w) => acc + w.length, 0);
@@ -59,7 +77,7 @@ const Typewriter = ({
 									transitionDelay: `${(previousCharsCount + charIndex) * 40}ms`,
 								}}
 								className={`inline-block transition-all duration-500 ease-out ${
-									mounted
+									isVisible
 										? "opacity-100 translate-y-0 blur-0"
 										: "opacity-0 translate-y-2 blur-sm"
 								}`}
@@ -70,59 +88,6 @@ const Typewriter = ({
 					</span>
 				);
 			})}
-		</span>
-	);
-};
-
-const DecryptedText: React.FC<DecryptedTextProps> = ({
-	text,
-	speed = 50,
-	maxIterations = 10,
-	className = "",
-	animateOnHover = false,
-}) => {
-	const [displayText, setDisplayText] = useState(text);
-	const [isHovering, setIsHovering] = useState(false);
-
-	const runAnimation = () => {
-		let iteration = 0;
-		const interval = setInterval(() => {
-			setDisplayText((prev) =>
-				prev
-					.split("")
-					.map((letter, index) => {
-						if (index < iteration) {
-							return text[index];
-						}
-						return CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
-					})
-					.join("")
-			);
-			iteration += 1 / 3;
-			if (iteration >= text.length) {
-				clearInterval(interval);
-				setDisplayText(text);
-			}
-		}, speed);
-		return () => clearInterval(interval);
-	};
-
-	useEffect(() => {
-		const cleanup = runAnimation();
-		return cleanup;
-	}, [text, speed, maxIterations]);
-
-	const handleMouseEnter = () => {
-		if (animateOnHover && !isHovering) {
-			setIsHovering(true);
-			runAnimation();
-			setTimeout(() => setIsHovering(false), text.length * speed);
-		}
-	};
-
-	return (
-		<span className={className} onMouseEnter={handleMouseEnter}>
-			{displayText}
 		</span>
 	);
 };
@@ -139,7 +104,7 @@ const DATA = {
 		},
 		hero: {
 			title1: "Arquitectura de Software",
-			title2: "Full Stack", // CAMBIO REALIZADO
+			title2: "Full Stack",
 			description:
 				"Desarrollador enfocado en construir la lógica que impulsa aplicaciones robustas. Estudiante de la UTN con experiencia real transformando procesos manuales en soluciones digitales eficientes.",
 			btnProject: "Ver Proyectos",
@@ -178,7 +143,7 @@ const DATA = {
 		},
 		hero: {
 			title1: "Software Architecture",
-			title2: "Full Stack", // CAMBIO REALIZADO
+			title2: "Full Stack",
 			description:
 				"Developer focused on building the logic that drives robust applications. UTN student with real-world experience transforming manual processes into efficient digital solutions.",
 			btnProject: "View Projects",
@@ -223,6 +188,23 @@ const PROJECTS_DATA = [
 			<Server
 				size={48}
 				className="text-gray-600 group-hover:text-blue-400 transition-colors transform group-hover:scale-110 duration-300"
+			/>
+		),
+	},
+	{
+		title: "Analizador de Facturas con IA",
+		desc: {
+			es: "Plataforma de automatización financiera multi-cliente. Integré la IA de Google (Gemini) para procesar imágenes de facturas, extrayendo y estructurando automáticamente datos clave (importes, fechas) para eliminar la carga manual de datos.",
+			en: "Multi-client financial automation platform. Integrated Google AI (Gemini) to process invoice images, automatically extracting and structuring key data (amounts, dates) to eliminate manual data entry.",
+		},
+		tags: ["Next.js", "Google Generative AI", "Full Stack"],
+		link: "https://analizador-facturas-ia.vercel.app/",
+		github: "https://github.com/JuanMRaimundo/analizador.facturasIA/",
+		featured: false,
+		icon: (
+			<Cpu
+				size={48}
+				className="text-gray-600 group-hover:text-cyan-400 transition-colors transform group-hover:scale-110 duration-300"
 			/>
 		),
 	},
@@ -377,11 +359,13 @@ const Navbar = ({ lang, setLang, t }: any) => {
 };
 
 const Hero = ({ t }: any) => {
+	// Mensaje para WhatsApp codificado
 	const whatsappMessage =
-		"Hola! Estamos interesados en tu perfil profesional y nos gustaría conversar sobre una oportunidad laboral.";
+		"Hola! Estoy interesado en tu perfil profesional y me gustaría conversar sobre una oportunidad laboral.";
 	const whatsappLink = `https://wa.me/5491163734198?text=${encodeURIComponent(
-		whatsappMessage
+		whatsappMessage,
 	)}`;
+
 	return (
 		<section
 			id="home"
@@ -391,6 +375,7 @@ const Hero = ({ t }: any) => {
 			<div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px]" />
 
 			<div className="max-w-4xl mx-auto px-6 text-center z-10">
+				{/* LINK A WHATSAPP CON PUNTO AZUL TITILANTE */}
 				<a
 					href={whatsappLink}
 					target="_blank"
@@ -408,7 +393,7 @@ const Hero = ({ t }: any) => {
 
 				<h1 className="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
 					<Typewriter
-						key={t.hero.title1} // Reinicia animación al cambiar idioma
+						key={t.hero.title1}
 						text={t.hero.title1}
 						className="block font-mono tracking-tighter sm:tracking-normal justify-center"
 					/>
