@@ -18,6 +18,8 @@ import {
 	Server,
 	LayoutTemplate,
 	Instagram,
+	ShoppingBag,
+	Code,
 } from "lucide-react";
 
 // --- 1. COMPONENTE TYPEWRITER INTELIGENTE (Detecta Visibilidad) ---
@@ -200,7 +202,7 @@ const PROJECTS_DATA = [
 		tags: ["Next.js", "Google Generative AI", "Full Stack"],
 		link: "https://analizador-facturas-ia.vercel.app/",
 		github: "https://github.com/JuanMRaimundo/analizador.facturasIA/",
-		featured: false,
+		featured: true,
 		icon: (
 			<Cpu
 				size={48}
@@ -209,19 +211,19 @@ const PROJECTS_DATA = [
 		),
 	},
 	{
-		title: "Simulador de Inversiones",
+		title: "Dulzuras Bella - JS Frontend Core",
 		desc: {
-			es: "Colaboración técnica para Igroker. Participé en la planificación de endpoints del backend para optimizar la comunicación cliente-servidor, además de implementar la lógica frontend para visualizar proyecciones financieras en tiempo real.",
-			en: "Technical collaboration for Igroker. Participated in backend endpoint planning to optimize client-server communication, in addition to implementing frontend logic to visualize financial projections in real-time.",
+			es: "Aplicación SPA (Single Page Application) enfocada en los fundamentos del desarrollo web. Construida íntegramente con JavaScript Vanilla para demostrar dominio de la manipulación del DOM, gestión de estado asíncrono y consumo de APIs sin dependencia de frameworks. Implementa persistencia local y diseño responsivo.",
+			en: "SPA (Single Page Application) focused on web development fundamentals. Built entirely with Vanilla JavaScript to demonstrate mastery of DOM manipulation, asynchronous state management, and API consumption without framework dependencies. Implements local persistence and responsive design.",
 		},
-		tags: ["Full Stack Logic", "API Planning", "Angular"],
-		link: null,
-		github: "https://github.com/JuanMRaimundo/i004-rooksafe-front",
-		featured: false,
+		tags: ["JavaScript ES6+", "DOM Manipulation", "Bootstrap 5", "Async/Await"],
+		link: "https://juanmraimundo.github.io/DulzurasBellaJS/",
+		github: "https://github.com/JuanMRaimundo/DulzurasBellaJS",
+		featured: true,
 		icon: (
-			<Database
+			<Code
 				size={48}
-				className="text-gray-600 group-hover:text-indigo-400 transition-colors transform group-hover:scale-110 duration-300"
+				className="text-gray-600 group-hover:text-blue-400 transition-colors transform group-hover:scale-110 duration-300"
 			/>
 		),
 	},
@@ -239,6 +241,23 @@ const PROJECTS_DATA = [
 			<LayoutTemplate
 				size={48}
 				className="text-gray-600 group-hover:text-purple-400 transition-colors transform group-hover:scale-110 duration-300"
+			/>
+		),
+	},
+	{
+		title: "Simulador de Inversiones",
+		desc: {
+			es: "Colaboración técnica para Igroker. Participé en la planificación de endpoints del backend para optimizar la comunicación cliente-servidor, además de implementar la lógica frontend para visualizar proyecciones financieras en tiempo real.",
+			en: "Technical collaboration for Igroker. Participated in backend endpoint planning to optimize client-server communication, in addition to implementing frontend logic to visualize financial projections in real-time.",
+		},
+		tags: ["Full Stack Logic", "API Planning", "Angular"],
+		link: null,
+		github: "https://github.com/JuanMRaimundo/i004-rooksafe-front",
+		featured: false,
+		icon: (
+			<Database
+				size={48}
+				className="text-gray-600 group-hover:text-indigo-400 transition-colors transform group-hover:scale-110 duration-300"
 			/>
 		),
 	},
@@ -361,7 +380,7 @@ const Navbar = ({ lang, setLang, t }: any) => {
 const Hero = ({ t }: any) => {
 	// Mensaje para WhatsApp codificado
 	const whatsappMessage =
-		"Hola! Estoy interesado en tu perfil profesional y me gustaría conversar sobre una oportunidad laboral.";
+		"Hola! Estamos interesados en tu perfil profesional y nos gustaría conversar sobre una oportunidad laboral.";
 	const whatsappLink = `https://wa.me/5491163734198?text=${encodeURIComponent(
 		whatsappMessage,
 	)}`;
