@@ -21,8 +21,9 @@ import {
 	ShoppingBag,
 	Code,
 } from "lucide-react";
+import Squares from "./components/squares";
 
-// --- 1. COMPONENTE TYPEWRITER INTELIGENTE (Detecta Visibilidad) ---
+// --- 1. COMPONENTE TYPEWRITER INTELIGENTE ---
 const Typewriter = ({
 	text,
 	className = "",
@@ -30,7 +31,6 @@ const Typewriter = ({
 	text: string;
 	className?: string;
 }) => {
-	// Usamos un estado para saber si el elemento es visible en pantalla
 	const [isVisible, setIsVisible] = useState(false);
 	const containerRef = useRef<HTMLSpanElement>(null);
 
@@ -38,7 +38,6 @@ const Typewriter = ({
 		const observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
-					// Si entra en pantalla, activamos. Si sale, desactivamos (para que se repita al volver).
 					if (entry.isIntersecting) {
 						setIsVisible(true);
 					} else {
@@ -46,7 +45,7 @@ const Typewriter = ({
 					}
 				});
 			},
-			{ threshold: 0.1 }, // Se activa cuando se ve al menos el 10%
+			{ threshold: 0.1 },
 		);
 
 		if (containerRef.current) {
@@ -93,7 +92,6 @@ const Typewriter = ({
 		</span>
 	);
 };
-
 // --- 2. DATOS ---
 const DATA = {
 	es: {
@@ -632,9 +630,20 @@ export default function App() {
 	const t = DATA[lang];
 
 	return (
-		<div className="bg-black min-h-screen text-gray-200 selection:bg-blue-500/30">
+		<div className="bg-black min-h-screen text-gray-200 selection:bg-blue-500/30 relative overflow-hidden">
+			{/* FONDO SQUARES */}
+			<div className="absolute inset-0 z-0">
+				<Squares
+					direction="diagonal"
+					speed={0.5}
+					squareSize={40}
+					borderColor="#222"
+					hoverFillColor="#1a1a1a"
+				/>
+			</div>
+
 			<Navbar lang={lang} setLang={setLang} t={t} />
-			<main>
+			<main className="relative z-10">
 				<Hero t={t} />
 				<BentoGrid t={t} />
 				<Projects lang={lang} t={t} />
