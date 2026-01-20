@@ -21,7 +21,7 @@ import {
 	ShoppingBag,
 	Code,
 } from "lucide-react";
-import Squares from "./components/squares";
+import Squares from "./components/Squares";
 
 // --- 1. COMPONENTE TYPEWRITER INTELIGENTE ---
 const Typewriter = ({
